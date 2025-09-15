@@ -6,85 +6,106 @@ import socket
 
 def lambda_handler(event, context):
     print("Received event: " + json.dumps(event))
-    
+
     try:
-        # Get bridge URL from environment variable
+        request_type = event['request']['type']
         BRIDGE_SERVER_URL = os.environ['BRIDGE_SERVER_URL']
         print(f"Using bridge URL: {BRIDGE_SERVER_URL}")
-        
-        # Handle different types of Alexa requests
-        request_type = event['request']['type']
-        
-        if request_type == 'LaunchRequest':
-            # User said "open incident commander" - give a welcome message
-            user_query = "Welcome to Incident Commander. What would you like to know about your incidents?"
-            should_end_session = False  # Keep session open for follow-up questions
-        elif request_type == 'IntentRequest':
-            # User asked a specific question - extract their query
-            user_query = event['request']['intent']['slots']['Query']['value']
-            should_end_session = True  # End session after answering
-        else:
-            # Other request types (SessionEndedRequest, etc.)
-            user_query = "What is the status of active incidents?"
-            should_end_session = True
-        
-        print(f"Processing query: '{user_query}'")
-        print(f"Request type: {request_type}")
-        print(f"Should end session: {should_end_session}")
 
-        # Prepare the request data
-        data = json.dumps({'query': user_query}).encode('utf-8')
-        print(f"Request data: {data.decode('utf-8')}")
-        
-        # Make the request
-        socket.setdefaulttimeout(10)
-        
-        request = Request(
-            BRIDGE_SERVER_URL,
-            data=data,
-            headers={'Content-Type': 'application/json'},
-            method='POST'
-        )
-        
-        print("Making request to bridge server...")
-        
-        with urlopen(request) as response:
-            result = json.loads(response.read().decode('utf-8'))
-            speech_text = result['response']
-            print(f"SUCCESS! Bridge response: {speech_text}")
-        
+        # === LaunchRequest ===
+        if request_type == 'LaunchRequest':
+            speech_text = "Welcome to Incident Commander. What would you like to do?"
+            should_end_session = False
+            return build_response(speech_text, should_end_session)
+
+        # === SessionEndedRequest ===
+        elif request_type == 'SessionEndedRequest':
+            reason = event['request'].get('reason', 'Unknown')
+            print(f"Session ended. Reason: {reason}")
+            return build_response("Goodbye.", should_end_session=True)
+
+        # === IntentRequest ===
+        elif request_type == 'IntentRequest':
+            intent = event['request']['intent']
+            intent_name = intent['name']
+            print(f"Intent received: {intent_name}")
+
+            # Handle exit/stop/cancel intents directly
+            if intent_name in ['AMAZON.StopIntent', 'AMAZON.CancelIntent', 'AMAZON.NavigateHomeIntent']:
+                return build_response("Exiting Incident Commander. Goodbye.", should_end_session=True)
+
+            # Freeform query intent
+            elif intent_name == 'FreeformQueryIntent':
+                try:
+                    user_query = intent['slots']['Query']['value']
+                except KeyError:
+                    user_query = ""
+                print(f"User query: {user_query}")
+            
+            # CloseIntent , when you want to close the session
+            elif intent_name == 'CloseIntent':
+                return build_response("Incident Commander is now closing. Tata amigo ! ", should_end_session=True)
+            else:
+                # Handle unknown intents gracefully
+                user_query = "What is the status of current incidents?"
+
+            # Forward query to bridge server
+            data = json.dumps({'query': user_query}).encode('utf-8')
+            print(f"Sending to bridge: {data.decode('utf-8')}")
+
+            socket.setdefaulttimeout(10)
+            request = Request(
+                BRIDGE_SERVER_URL,
+                data=data,
+                headers={'Content-Type': 'application/json'},
+                method='POST'
+            )
+
+            print("Sending request to bridge server...")
+            with urlopen(request) as response:
+                result = json.loads(response.read().decode('utf-8'))
+                speech_text = result.get('response', "Sorry, I didn't understand that.")
+                print(f"Bridge response: {speech_text}")
+
+            should_end_session = False  # Keep session open
+            return build_response(speech_text, should_end_session)
+
+        else:
+            print("Unhandled request type.")
+            return build_response("I'm not sure how to handle that request.", should_end_session=True)
+
     except KeyError as e:
         print(f"Key error: {e}")
-        speech_text = "I didn't understand your request. Please try again."
-        should_end_session = True
+        return build_response("I didn't understand your request. Please try again.", should_end_session=True)
+
     except HTTPError as e:
-        print(f"HTTP error from bridge server: {e}")
-        print(f"HTTP status: {e.code}")
-        print(f"HTTP reason: {e.reason}")
-        # Read the response body for more details
+        print(f"HTTPError: {e.code}, reason: {e.reason}")
         try:
             error_body = e.read().decode('utf-8')
-            print(f"Error response body: {error_body}")
+            print(f"Bridge error body: {error_body}")
         except:
             pass
-        speech_text = "The incident service returned an error. Please try again later."
-        should_end_session = True
+        return build_response("The incident service returned an error. Please try again later.", should_end_session=True)
+
     except URLError as e:
-        print(f"Network error: {e}")
-        print(f"Error reason: {e.reason}")
-        speech_text = "I can't connect to the incident service right now."
-        should_end_session = True
+        print(f"URLError: {e.reason}")
+        return build_response("I can't connect to the incident service right now.", should_end_session=True)
+
     except Exception as e:
-        print(f"Unexpected error: {str(e)}")
         import traceback
         traceback.print_exc()
-        speech_text = f"Sorry, I encountered an error: {str(e)}"
-        should_end_session = True
+        return build_response(f"Sorry, I encountered an error: {str(e)}", should_end_session=True)
 
+
+# === Helper: Build Alexa JSON response ===
+def build_response(text, should_end_session):
     return {
         'version': '1.0',
         'response': {
-            'outputSpeech': {'type': 'PlainText', 'text': speech_text},
+            'outputSpeech': {
+                'type': 'PlainText',
+                'text': text
+            },
             'shouldEndSession': should_end_session
         }
     }
