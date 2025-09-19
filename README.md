@@ -9,8 +9,9 @@ Tired of looking at screens ?  Now you can just ask Alexa what's broken - she'll
 
 Incident Commander is an Alexa skill that provides voice-controlled access to your incident.io data through a local MCP server bridge, enabling natural language queries about incidents and outages.
 
-## 🎥 Demo Video
-[![Demo Video]()
+## 🎥 Demo Videos
+- ![Watch Alexa light up !](https://drive.google.com/file/d/1TAFKjdpsVNcOQ-EUT9xgVwtFUhv9o7sQ/view?usp=sharing)
+- ![Watch sleep-deprived me talking](https://drive.google.com/file/d/1TAFKjdpsVNcOQ-EUT9xgVwtFUhv9o7sQ/view?usp=sharing)
 
 ## ✨ Features
 
