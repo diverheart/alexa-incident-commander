@@ -60,8 +60,7 @@ graph TB
 # Limitations
 
 - This is a POC , the local bridge server should ideally be another AWS lambda function
-- The code can be improved for portability , it does not allow setting of custom ports , bridge url for the local bridge server at the moment
-- More rigorous Alexa testing is required
+- We are currently only using one of the tools from the incident.io mcp server , we can extend it further to give more personalized information
 
 # Setup
 Read more about how to set this up yourself [here](setup.md)
