@@ -21,27 +21,6 @@ MCP_SCRIPT_PATH = os.getenv('MCP_SCRIPT_PATH')
 # Global process variable
 mcp_process = None
 
-# In your local_bridge.py, add this at the top
-@app.before_request
-def log_request_info():
-    print(f"=== INCOMING REQUEST ===")
-    print(f"Method: {request.method}")
-    print(f"URL: {request.url}")
-    print(f"Path: {request.path}")
-    print(f"Headers:")
-    for key, value in request.headers:
-        print(f"  {key}: {value}")
-    print(f"Data: {request.get_data().decode('utf-8')}")
-    print(f"========================")
-
-@app.after_request
-def log_response_info(response):
-    print(f"=== OUTGOING RESPONSE ===")
-    print(f"Status: {response.status_code}")
-    print(f"Headers: {dict(response.headers)}")
-    print(f"========================")
-    return response
-
 def ensure_mcp_server_running():
     """Ensure the MCP server is running"""
     global mcp_process
