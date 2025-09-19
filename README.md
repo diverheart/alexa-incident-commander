@@ -27,6 +27,7 @@ Sometimes I just want a voice assistant to tell me about what's going on instead
 
 ### Architecture
 
+```mermaid
 graph TB
     A[Alexa Device] -->|Voice Request| B[AWS Lambda Function]
     B -->|HTTP Request| C[Local Bridge Server]
@@ -52,6 +53,7 @@ graph TB
     class A alexa
     class B aws
     class C,D local
+```
 
 # Limitations
 
