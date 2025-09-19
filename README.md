@@ -7,7 +7,6 @@ A powerful Alexa skill that provides real-time incident status updates through n
 
 Sometimes I just want a voice assistant to tell me about what's going on instead of looking at my computer screen and a thousand pages and dashboards , what if I want to know about incidents as if I am talking to colleague , with this Alexa skill backed by incident.io MCP server , it can now be a reality !
 
-
 ## 🎥 Demo Video
 [![Demo Video]()
 
@@ -65,7 +64,6 @@ sequenceDiagram
 - More rigorous Alexa testing is required
 
 # Setup
-
-Read more about how to set this up yourself [here](instructions/setup.md)
+Read more about how to set this up yourself [here](setup.md)
 
 

@@ -1,0 +1,62 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "incident commander",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "FreeformQueryIntent",
+                    "slots": [
+                        {
+                            "name": "Query",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "give me a short {Query}",
+                        "how many {Query}",
+                        "tell me about {Query}",
+                        "tell me {Query}",
+                        "what about {Query}",
+                        "I want to know {Query}",
+                        "{Query} please",
+                        "give me {Query}",
+                        "what is {Query}",
+                        "show me {Query}",
+                        "check {Query}",
+                        "any {Query}"
+                    ]
+                },
+                {
+                    "name": "CloseIntent",
+                    "slots": [],
+                    "samples": [
+                        "stop incident commander",
+                        "exit incident commander",
+                        "close incident commander"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}

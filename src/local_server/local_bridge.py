@@ -15,7 +15,8 @@ app = Flask(__name__)
 client = Anthropic()
 
 # Path to your MCP server script
-MCP_SCRIPT_PATH = "/Users/shreyashah/build_with_incidentio_repo/incidentio-mcp-golang/start-mcp-server.sh"
+env = os.environ.copy()
+MCP_SCRIPT_PATH = os.getenv('MCP_SCRIPT_PATH')
 
 # Global process variable
 mcp_process = None
