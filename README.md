@@ -10,8 +10,8 @@ Tired of looking at screens ?  Now you can just ask Alexa what's broken - she'll
 Incident Commander is an Alexa skill that provides voice-controlled access to your incident.io data through a local MCP server bridge, enabling natural language queries about incidents and outages.
 
 ## 🎥 Demo Videos
-- ![Watch Alexa light up !](https://drive.google.com/file/d/1TAFKjdpsVNcOQ-EUT9xgVwtFUhv9o7sQ/view?usp=sharing)
-- ![Watch sleep-deprived me talking](https://drive.google.com/file/d/1TAFKjdpsVNcOQ-EUT9xgVwtFUhv9o7sQ/view?usp=sharing)
+- [Watch Alexa light up !](https://drive.google.com/file/d/1TAFKjdpsVNcOQ-EUT9xgVwtFUhv9o7sQ/view?usp=sharing)
+- [Watch sleep-deprived me talking](https://drive.google.com/file/d/1TAFKjdpsVNcOQ-EUT9xgVwtFUhv9o7sQ/view?usp=sharing)
 
 ## ✨ Features
 
@@ -66,4 +66,7 @@ graph TB
 # Setup
 Read more about how to set this up yourself [here](setup.md)
 
+# Want to play around ?
 
+Email me at toshreyashah@gmail.com and i will add you as a beta tester in the Alexa skill,
+you will be able to access the alexa dashboard via this [link](https://skills-store.amazon.com/deeplink/tvt/fa36c56c05814857c549e49e0f2d8a5709a064a4b7ef65205055a01c9975a3d9d2f174bff6dd88124dfece073fa02965a0a4ff5d512d6185188cc13377bf81869cac2c0da6ef56c5f0663f4822395c15aa261d5101b14d0f08782377a71148fe4da915cb47ff3d916c46307a4447447c) post that
