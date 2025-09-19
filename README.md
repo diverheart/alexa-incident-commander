@@ -27,35 +27,31 @@ Sometimes I just want a voice assistant to tell me about what's going on instead
 
 ### Architecture
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Alexa
-    participant Lambda as AWS Lambda
-    participant Bridge as Local Bridge Server
-    participant Claude as Claude AI
-    participant MCP as MCP Server
-    participant API as incident.io API
+graph TB
+    A[Alexa Device] -->|Voice Request| B[AWS Lambda Function]
+    B -->|HTTP Request| C[Local Bridge Server]
+    C -->|stdin/stdout MCP Protocol| D[incident.io MCP Server]
     
-    User->>Alexa: Voice command: "ask incident commander for status"
-    Alexa->>Lambda: JSON event with intent/slots
+    D -->|MCP Response| C
+    C -->|Enhanced Response with Claude AI Formatting| B
+    B -->|Formatted Voice Response| A
     
-    alt LaunchRequest
-        Lambda->>Alexa: Welcome message (direct response)
-    else IntentRequest
-        Lambda->>Bridge: POST /ask with {"query": "user question"}
-        Bridge->>MCP: JSON-RPC call to list_incidents
-        MCP->>API: HTTP request to incident.io API
-        API-->>MCP: JSON response with incident data
-        MCP-->>Bridge: JSON response with incident data
-        Bridge->>Claude: Format request with incident data
-        Claude-->>Bridge: Formatted natural language response
-        Bridge-->>Lambda: {"response": "formatted text"}
-        Lambda-->>Alexa: JSON response with speech text
+    subgraph "AWS Cloud"
+        B
     end
     
-    Alexa->>User: Spoken response about incidents
-```
+    subgraph "Local Environment"
+        C
+        D
+    end
+    
+    classDef alexa fill:#00d4ff,stroke:#0099cc,stroke-width:2px,color:#fff
+    classDef aws fill:#ff9900,stroke:#cc7700,stroke-width:2px,color:#fff
+    classDef local fill:#4caf50,stroke:#388e3c,stroke-width:2px,color:#fff
+    
+    class A alexa
+    class B aws
+    class C,D local
 
 # Limitations
 

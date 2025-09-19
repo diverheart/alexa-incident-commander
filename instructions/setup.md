@@ -65,6 +65,7 @@ Congratulations ! You now have your local bridge server set !
 - Navigate to `AWS Lambda`
 - Create new Lambda function with Python 3.12
 - Copy-paste the lambda function code from [here](../src/aws-lamda-script/lambda_function.py)
+- Add layer: `arn:aws:lambda:eu-north-1:770693421928:layer:Klayers-p312-requests:3`
 - Create a new Environment variable `BRIDGE_SERVER_URL` and store the ephimeral domain created by localxpose or ngrok followed by the `/ask` endpoint
 
 ## Setting up Alexa
@@ -86,6 +87,7 @@ Select AWS Lambda ARN, Copy your Lambda function's ARN from the top right of its
 alexa open incident commander
 tell me about the last incident
 ```
+- Login to alexa app with the same email used in the developer console and enable the skill
 
 C O N G R A T U L A T I O N S ! 
 Now you have a personal voice incident management assistant !
@@ -98,23 +100,3 @@ Now you have a personal voice incident management assistant !
 
 
 
-<!-- ## 1. AWS Lambda Setup
-- Create Lambda function with Python 3.12
-- Add layer: `arn:aws:lambda:eu-north-1:770693421928:layer:Klayers-p312-requests:3`
-- Set environment variable: `BRIDGE_SERVER_URL`
-
-## 2. Local Bridge Setup
-- Install dependencies: `pip install -r requirements.txt`
-- Set API keys as environment variables
-- Run: `python src/local_bridge.py`
-
-## 3. Alexa Skill Configuration
-- Invocation name: "incident commander"
-- Intent: `QueryIntent` with sample utterances
-- Slot: `Query` with type `AMAZON.SearchQuery`
-- Endpoint: Lambda ARN
-
-## 4. Tunnel Setup
-- Install LocalXpose: `brew install localxpose`
-- Run tunnel: `lpx tunnel http 5000`
-- Update Lambda with tunnel URL -->
