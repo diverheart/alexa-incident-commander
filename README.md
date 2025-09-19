@@ -5,7 +5,9 @@ A powerful Alexa skill that provides real-time incident status updates through n
 
 # Overview
 
-Sometimes I just want a voice assistant to tell me about what's going on instead of looking at my computer screen and a thousand pages and dashboards , what if I want to know about incidents as if I am talking to colleague , with this Alexa skill backed by incident.io MCP server , it can now be a reality !
+Tired of looking at screens ?  Now you can just ask Alexa what's broken - she'll gossip about your incidents like a well-informed colleague who actually reads the postmortems! 🗣️☕️
+
+Incident Commander is an Alexa skill that provides voice-controlled access to your incident.io data through a local MCP server bridge, enabling natural language queries about incidents and outages.
 
 ## 🎥 Demo Video
 [![Demo Video]()
